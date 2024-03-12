@@ -1,5 +1,4 @@
 pytesseract
-PIL
-io
+Pillow
 openai
-dotenv
+python-dotenv
