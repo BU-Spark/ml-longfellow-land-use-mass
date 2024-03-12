@@ -1,0 +1,5 @@
+pytesseract
+PIL
+io
+openai
+dotenv
