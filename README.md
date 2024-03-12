@@ -8,7 +8,7 @@ All Pull Requests must follow the Pull Request Template, with a title formatted 
 ## Requirements
 Install essential libraries:
 ```
-pip -r install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Set up OpenAI_API_KEY
@@ -16,7 +16,8 @@ In folder `modules`:
 
 1. Duplicate the file `env.template`
 
-2. Add your `api key` and `organization id` to `OPENAI_API_KEY` and `OPENAI_ORG_ID`
+2. Add your `api key` and `organization id` to `OPENAI_API_KEY` and `OPENAI_ORG_ID`. You can get your api key and organization ID via the link: (api-keys)[https://platform.openai.com/api-keys], 
+(organization)[https://platform.openai.com/account/organization]
 
 3. Rename this file to `.env`
 
