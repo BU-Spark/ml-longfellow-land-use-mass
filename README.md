@@ -1,9 +1,20 @@
 # TEMPLATE-base-repo
 
 All Pull Requests must follow the Pull Request Template, with a title formatted like such `[Project Name]: <Descriptive Title>`
+![logo](logo.png)
 
 # DRAINS: Deed Restriction Artificial Intelligence Notification System
-(descriptions of drains)
+
+## Project Overview
+This project, developed for the [Longmeadow Historical Society](https://www.longmeadowhistoricalsociety.org), introduces an automated tool designed to identify racist restrictions within historical property deeds. Utilizing advanced text analysis techniques, the program processes TIFF images of property deeds, evaluates the text for racist content, and extracts critical information—specifically the deed date and page number—into a CSV format for efficient access and analysis.
+
+### Key Features
+
+- Image Processing: Accepts property deed images in TIFF format.
+- Content Analysis: Employs text recognition and analysis algorithms to detect racist language.
+- Data Extraction: Automates the extraction of deed date and page number for each document analyzed.
+
+Our aim is to assist the Longmeadow Historical Society in their efforts to document and understand historical injustices, contributing to a broader societal recognition and rectification of past discriminations.
 
 ## Requirements
 Install essential libraries:
