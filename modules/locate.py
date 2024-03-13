@@ -16,4 +16,8 @@ def locate(ocr_text):
         if re.match(pattern, word):
             # appending entire string for human judgement as OCR fails to correctly translate years in few cases
             possible_dates.append(word)
+    if not possible_pages:
+        possible_pages.append("Null")
+    if not possible_dates:
+        possible_dates.append("Null")
     return possible_pages, possible_dates
