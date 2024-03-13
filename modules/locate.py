@@ -6,8 +6,10 @@ def locate(ocr_text):
     #         (2) array of possible dates
     possible_pages = []
     possible_dates = []
+    possible_book = []
     result = ocr_text.split("\n")
-    pattern = r'Re(?:c\'d\.|ceived|e\'d\.)'
+    pattern = re.compile(r'Re(?:c|ceived|e|o|a)')
+    book_pattern = re.compile(r'B(?:OOK|00K)',  re.IGNORECASE)
     for word in result:
         # checks for possible page numbers
         if word.isdigit() == True:
@@ -16,8 +18,12 @@ def locate(ocr_text):
         if re.match(pattern, word):
             # appending entire string for human judgement as OCR fails to correctly translate years in few cases
             possible_dates.append(word)
+        if re.match(book_pattern, word):
+            possible_book.append(word)
     if not possible_pages:
         possible_pages.append("Null")
     if not possible_dates:
         possible_dates.append("Null")
-    return possible_pages, possible_dates
+    if not possible_book:
+        possible_book.append("Null")
+    return possible_pages, possible_dates, possible_book
