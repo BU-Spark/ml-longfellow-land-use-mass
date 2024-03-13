@@ -6,18 +6,18 @@ from modules.racist_chatgpt_analysis import racist_chatgpt_analysis
 from modules.locate import locate
 import os
 
-def make_csv(file_dir):
+def racism_threshold(file_dir):
   for images in os.listdir(file_dir):
-    if images.endswith(".tif"):
+    if images.endswith(".tif") or images.endswith(".tiff"):
       text= tiff_to_ocr(images)
 
       result1 = racist_chatgpt_analysis(text)
       result2 = racist_text_query(text, bigotry_dict)
 
       if result1 or result2:
-        page,date = locate(text)
-        print(page,date)
+        a,b = locate(text)
+        print(images,a,b)
+      else:
+        print(images  + " : Not Racist")
 
-
-
-make_csv('/Users/vijayfisch/Desktop/DD4G 2024 Land Use/dd4g-land-use-mass')
+racism_threshold('C:/Users/sindh/Downloads/dd4g-land-use-mass-team/dd4g-land-use-mass-team')
