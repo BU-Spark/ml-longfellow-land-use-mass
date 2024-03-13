@@ -17,15 +17,17 @@ def racism_threshold(file_dir):
       result2 = racist_text_query(text, bigotry_dict)
 
       if result1 or result2:
-        a,b = locate(text)
-        print(images,a,b)
-        data.append([images,a[0], b[0]])
+        a,b,c = locate(text)
+        print(images,a,b,c)
+        data.append([images,a[0], b[0], c[0]])
       else:
         print(images  + " : Not Racist")
+        a,b,c = locate(text)
+        data.append([images,a[0], b[0], c[0]])
 
       
   #print(data)
-  df = pd.DataFrame(data, columns = ['File name', 'Page Number', 'Date'])
+  df = pd.DataFrame(data, columns = ['File name', 'Page Number', 'Date', 'Book Number'])
   df.index += 1
   df.to_csv('Racist Deeds.csv', index = True)
   #print(df)
