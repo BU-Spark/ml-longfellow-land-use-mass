@@ -7,15 +7,13 @@ def locate(ocr_text):
     possible_pages = []
     possible_dates = []
     result = ocr_text.split("\n")
-    pattern1 = r'Ree\'d\. (\w+\. \d{1,2}, \d{4})'
-    pattern2 = r'Rec\'d\. (\w+\. \d{1,2}, \d{4})'
+    pattern = r'Re(?:c\'d\.|ceived|e\'d\.)'
     for word in result:
         # checks for possible page numbers
         if word.isdigit() == True:
             possible_pages.append(word)
         # checks for rec'd dates
-        if re.match(pattern1, word):
-            possible_dates.append(re.match(pattern1, word).group(1))
-        elif re.match(pattern2, word):
-            possible_dates.append(re.match(pattern2, word).group(1))
+        if re.match(pattern, word):
+            # appending entire string for human judgement as OCR fails to correctly translate years in few cases
+            possible_dates.append(word)
     return possible_pages, possible_dates
