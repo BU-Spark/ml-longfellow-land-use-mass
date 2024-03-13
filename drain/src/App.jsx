@@ -20,10 +20,8 @@ const App = () => {
                 <h1>DRAIN: OCR File Upload</h1>
                 <h3>Deed Restriction Artificial Intelligence Notification System</h3>
                 <p>Convert your files to text using OCR</p>
-            </header>
-            <main>
                 <DragDropArea />
-            </main>
+            </header>
         </div>
     );
 }
