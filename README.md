@@ -17,7 +17,7 @@ This project, developed for the [Longmeadow Historical Society](https://www.long
 Our aim is to assist the Longmeadow Historical Society in their efforts to document and understand historical injustices, contributing to a broader societal recognition and rectification of past discriminations.
 
 ### Dataset Used
-
+The historical property deeds (mainly 1900s) of Massachusetts.
 
 ## Quick Start
 ### Requirements
@@ -43,7 +43,11 @@ To access ChatGPT-4, you can update this line to:
 `model="gpt-4-0125-preview"`
 
 ### Run the code
-In file `main.py`, change the folder path to your path(line 24).
+In file `main.py`, change the folder path to your path(line 36).
+```python
+racism_threshold('/Your/Path/To/Files')
+```
+For the **Windows Operating System**, you need to edit the path manually to make sure all slashes are **backslashes**. 
 
 Then in command line, run:
 ```

@@ -33,4 +33,4 @@ def racism_threshold(file_dir):
   #print(df)
         
 
-racism_threshold('/Users/namannagaria/Desktop/new/dd4g-land-use-mass')
+racism_threshold('/Your/Path/To/Files')
