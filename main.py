@@ -54,7 +54,7 @@ def racism_threshold(file_dir):
                 data.append([images, a, b[0], c[0], hyperlink_formula])
             else:
                 print(images + " : Not Racist")
-                data.append([images, a, b[0], c[0], hyperlink_formula])
+                # data.append([images, a, b[0], c[0], hyperlink_formula])
 
     # Include the hyperlink in the DataFrame columns
     df = pd.DataFrame(data, columns=['File Name', 'Probable Page Number', 'Date', 'Book Number', "Page Link"])
