@@ -60,5 +60,6 @@ def racism_threshold(file_dir):
     df = pd.DataFrame(data, columns=['File Name', 'Probable Page Number', 'Date', 'Book Number', "Page Link"])
     df.index += 1
     df.to_csv(os.path.join(file_dir, 'Racist Deeds.csv'), index=True)
+    df.to_excel(os.path.join(file_dir, 'Racist Deeds.xlsx'), index=True)
 
 racism_threshold('folderpath')
