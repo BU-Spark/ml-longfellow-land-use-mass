@@ -4,6 +4,7 @@ def locate(ocr_text):
     # input: string produced by the ocr
     # output: (1) array of possible page numbers (may include false positives)
     #         (2) array of possible dates
+    #         (3) array of possible book numbers 
     possible_pages = []
     possible_dates = []
     possible_book = []
