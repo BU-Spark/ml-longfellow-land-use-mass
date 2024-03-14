@@ -65,3 +65,5 @@ python main.py
 `racist_chatgpt_analysis.py`: Integrates with OpenAI's ChatGPT API to process the text-based deeds for advanced racism detection, offering a nuanced analysis that goes beyond keyword matching.
 
 `racist_text_query.py`: A failsafe text query module that acts as a backup for the ChatGPT analysis, manually checking deeds against the bigotry dictionary to ensure no instances of racist language are overlooked.
+
+`pagenum.py`: A failsafe page number extraction module that acts as a backup for the data extraction done by `locate.py` by cropping the corners of the image for enlargement and easy OCR translation. 
