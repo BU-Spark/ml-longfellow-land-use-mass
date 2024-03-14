@@ -61,4 +61,4 @@ def racism_threshold(file_dir):
     df.index += 1
     df.to_csv(os.path.join(file_dir, 'Racist Deeds.csv'), index=True)
 
-racism_threshold('/Users/namannagaria/Desktop/new/dd4g-land-use-mass')
+racism_threshold('folderpath')
