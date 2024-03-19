@@ -1,4 +1,3 @@
-import React from 'react';
 import './Banner.css';
 import logo from '../assets/logo.png';
 
