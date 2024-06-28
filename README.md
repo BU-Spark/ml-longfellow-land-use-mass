@@ -81,17 +81,21 @@ This interactive map shows the temporal progression of racist deeds in a neighbo
 
 ### Key Features 
 
-Cover and information page 
-Time slider of the existence of deeds 
-House icon: information on property deed 
-Address search tool 
-Filter tool for racial groups 
+-Cover and information page 
+
+-Time slider of the existence of deeds 
+
+-House icon: information on property deed 
+
+-Address search tool
+
+-Filter tool for racial groups 
 
 ### Process
 
 Data Collection - 
 
-There were issues running the code from SPARK! x MassMutual Data Days for Good. We decided to manually collect data from the Hampden County Registry of Deeds in Longmeadow with E.H Robbins as the grantor. 
+There were issues running the code from SPARK! x MassMutual Data Days for Good. We decided to manually collect data from the Hampden County Registry of Deeds in Longmeadow, MA with E.H Robbins as the grantor. 
 
 Data Cleaning and Transformation -
 1. After manually collecting the data of racist deeds in Longmeadow with E.H Robbins as the grantor, we normalized the Lot # column to ensure that each Lot # has a unique row; this is so, because deeds may have multiple lot #s. 
@@ -101,7 +105,7 @@ Data Cleaning and Transformation -
 
 ### Visualization 
 
-We chose ArcGIS for our visualization software. 
+We chose ArcGIS for our visualization software (interactive map). 
 
-Link to the ArcGIS group:
+Link to the ArcGIS instant app:
 https://arcg.is/1aKD9b1
