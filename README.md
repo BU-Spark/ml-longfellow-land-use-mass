@@ -67,3 +67,41 @@ python main.py
 `racist_text_query.py`: A failsafe text query module that acts as a backup for the ChatGPT analysis, manually checking deeds against the bigotry dictionary to ensure no instances of racist language are overlooked.
 
 `pagenum.py`: A failsafe page number extraction module that acts as a backup for the data extraction done by `locate.py` by cropping the corners of the image for enlargement and easy OCR translation. 
+
+
+# PIT-NE x SPARK! x MassMutual ~ SUMMER 2024 
+
+Created by Arnav Sodhani, Grace Chong, Hannah Choe
+
+## Project Overview
+
+This project is developed for the Longmeadow Historical Society and is a direct continuation of the work done by SPARK! x MassMutual Data Days for Good. 
+
+This interactive map shows the temporal progression of racist deeds in a neighborhood in Longmeadow, MA in the early 1900s. To make this product, we first utilized the MA registry and filtered off of Hampden County to get our data. On the registry website, we filtered out property deeds based on whether the seller was E.H. Robbins (this builder was infamous for placing racial restrictions in deeds) and the period was the early 1900s (MA passed the Fair Housing Act in 1946 so we had to look for deeds prior that year). We then organized and consolidated these deeds in a spreadsheet. Next, we filtered whether the deed had any racial restrictions and then normalized the spreadsheet so that each "lot number" had its row. Lastly, to finalize the creation of this database, we added two new columns: Address Today (we matched each "lot number" to its respective current-day address using GIS technology and the Longmeadow lot plan) and House Image (we matched each address to its house image using Google Maps). And then finally we used ArcGIS, software that helps to build web maps, to create our end deliverable of an interactive map that visualizes the data with a temporal aspect (time slider).
+
+### Key Features 
+
+Cover and information page 
+Time slider of the existence of deeds 
+House icon: information on property deed 
+Address search tool 
+Filter tool for racial groups 
+
+### Process
+
+Data Collection - 
+
+There were issues running the code from SPARK! x MassMutual Data Days for Good. We decided to manually collect data from the Hampden County Registry of Deeds in Longmeadow with E.H Robbins as the grantor. 
+
+Data Cleaning and Transformation -
+1. After manually collecting the data of racist deeds in Longmeadow with E.H Robbins as the grantor, we normalized the Lot # column to ensure that each Lot # has a unique row; this is so, because deeds may have multiple lot #s. 
+2. Then we matched the lot # to the modern-day addresses using an existing Longmeadow GIS. 
+3. Finally, we created a reference table with ID keys to map onto our GIS. 
+
+
+### Visualization 
+
+We chose ArcGIS for our visualization software. 
+
+Link to the ArcGIS group:
+https://arcg.is/1aKD9b1
