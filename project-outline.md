@@ -14,7 +14,6 @@ Normally, the process of parsing thousands of deeds for racist language would ta
 - **Data Compilation**: compile a repository of racist deeds and their associated metadata for further analysis
 
 ## B. Problem Statement
-In as direct terms as possible, provide the “Data Science” or "Machine Learning" problem statement version of the overview. Think of this as translating the above into a more technical definition to execute on. eg: a classification problem to segregate users into one of three groups on based on the historical user data available from a publicly available database
 
 - **Automated Data Collection**: Develop scripts to compile deeds into a database.
 - **Optical Character Recognition (OCR)**: Utilize OCR to automatically read and digitize text from deeds. This can involve:
