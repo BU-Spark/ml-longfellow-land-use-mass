@@ -91,3 +91,36 @@ body, html{
 .loader div:nth-child(2) {
   animation-delay: -0.5s;
 }
+
+.ocr-select-container {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.ocr-select-container label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.ocr-select {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.ocr-select:focus {
+  border-color: #2980b9;
+  outline: none;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+.ocr-select option {
+  padding: 10px;
+  font-size: 16px;
+}
