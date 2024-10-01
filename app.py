@@ -16,14 +16,19 @@ def upload_file():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
+    ocr_engine = request.form.get('ocr_engine', 'google')
 
     try:
-        google_text = google_cloud_ocr(file)
-        azure_text = "filler"
-        return jsonify({'status': 'success', 'google_text': google_text, 'azure_text': azure_text}), 200
+        if ocr_engine == 'google':
+            google_text = google_cloud_ocr(file)
+            return jsonify({'status': 'success', 'ocr_engine': 'google', 'text': google_text}), 200
+        elif ocr_engine == 'azure':
+            azure_text = "filler"
+            return jsonify({'status': 'success', 'ocr_engine': 'azure', 'text': azure_text}), 200
+        else:
+            return jsonify({'error': 'Unsupported OCR engine selected'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

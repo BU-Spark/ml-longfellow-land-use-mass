@@ -6,6 +6,7 @@ import Loader from './Loader';
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [ocrEngine, setOcrEngine] = useState('google');
 
     const handleFileUpload = async (files) => {
         setIsLoading(true);
@@ -14,6 +15,8 @@ const App = () => {
         files.forEach(file => {
             formData.append('file', file);
         });
+
+        formData.append('ocr_engine', ocrEngine);
 
         try {
             const response = await fetch('http://127.0.0.1:5000/api/upload', {
@@ -34,6 +37,10 @@ const App = () => {
         }
     };
 
+    const handleOcrChange = (event) => {
+        setOcrEngine(event.target.value);
+    };
+
     return (
         <div className="App">
             {isLoading && <Loader />}
@@ -42,7 +49,15 @@ const App = () => {
                 <h1>DRAIN: Deed Restriction Artificial Intelligence Notification System</h1>
                 <h3>OCR File Upload</h3>
                 <p>Convert your files to text using OCR</p>
+
                 <DragDropArea onFileUpload={handleFileUpload} />
+                <div className="ocr-select-container">
+                    <label htmlFor="ocr-select">Select OCR Engine: </label>
+                    <select id="ocr-select" value={ocrEngine} onChange={handleOcrChange} className="ocr-select">
+                        <option value="google">Google OCR</option>
+                        <option value="azure">Azure OCR</option>
+                    </select>
+                </div>
             </header>
         </div>
     );
