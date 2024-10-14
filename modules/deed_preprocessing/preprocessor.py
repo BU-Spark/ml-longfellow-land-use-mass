@@ -4,7 +4,7 @@ from collections import Counter
 
 nlp = spacy.load('en_core_web_sm')
 
-def preprocess_text_spacy(text):
+def preprocess_text(text):
     text = re.sub(r'[\n\r\t]', ' ', text)
     text = re.sub(r'[^\x00-\x7F]+', '', text)
     doc = nlp(text)

@@ -7,3 +7,4 @@ flask
 flas-cors
 python-dotenv
 google-cloud-vision
+spacy

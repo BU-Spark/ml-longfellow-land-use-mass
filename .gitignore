@@ -175,3 +175,9 @@ __pycache__
 /credentials/*.json
 
 /drain/node_modules/
+
+/modules/deed_preprocessing/tiffs/*
+
+/modules/deed_preprocessing/outputs/*
+
+.zip

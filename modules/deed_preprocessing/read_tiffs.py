@@ -27,7 +27,7 @@ for root, dirs, files in os.walk('./tiffs'):
                     output_file_name = f"{os.path.splitext(file)[0]}.txt"
                     output_file_path = os.path.join(output_dir, output_file_name)
                     
-                   with open(output_file_path, 'w', encoding='utf-8') as output_txt:
+                    with open(output_file_path, 'w', encoding='utf-8') as output_txt:
                         output_txt.write(extracted_text)
                     
                     print(f"OCR result for {file} saved to {output_file_name}")
