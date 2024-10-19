@@ -26,7 +26,7 @@ for root, dirs, files in os.walk('./tiffs'):
                     extracted_text = google_cloud_ocr_module.google_cloud_ocr(tiff_file)
 
                     # spell check the extracted text
-                    corrected_text = correct_spelling(extracted_text)
+                    # corrected_text = correct_spelling(extracted_text)
                     
                     output_file_name = f"{os.path.splitext(file)[0]}.txt"
                     output_file_path = os.path.join(output_dir, output_file_name)
