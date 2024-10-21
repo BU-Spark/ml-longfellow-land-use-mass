@@ -169,3 +169,15 @@ $RECYCLE.BIN/
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 modules/.env
+
+__pycache__
+
+/credentials/*.json
+
+/drain/node_modules/
+
+/modules/deed_preprocessing/tiffs/*
+
+/modules/deed_preprocessing/outputs/*
+
+.zip
