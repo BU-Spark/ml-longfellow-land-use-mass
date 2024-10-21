@@ -1,6 +1,7 @@
 import os
+import re
 import pandas as pd
-from bigotry_dict import bigotry_dict  
+from bigotry_dict import bigotry_dict 
 
 def count_keywords_in_text(text, bigotry_dict):
     keyword_counts = {}
@@ -8,12 +9,17 @@ def count_keywords_in_text(text, bigotry_dict):
 
     for keyword in bigotry_dict:
         keyword_lower = keyword.lower()  # Normalize the keyword to lowercase
-        if keyword_lower in keyword_counts:
-            continue  # Skip if this keyword has already been processed
+        # Use regular expressions to match only whole words
+        pattern = r'\b' + re.escape(keyword_lower) + r'\b'
+        matches = re.findall(pattern, text_lower)
+        count = len(matches)  # Count the number of whole-word matches
 
-        count = text_lower.count(keyword_lower)  # Count keyword occurrences
         if count > 0:
-            keyword_counts[keyword_lower] = {'count': count, 'texts': [text], 'display_keyword': keyword}
+            # Initialize the keyword count if it's not already present
+            if keyword_lower not in keyword_counts:
+                keyword_counts[keyword_lower] = {'count': 0, 'texts': [], 'display_keyword': keyword}
+            keyword_counts[keyword_lower]['count'] += 1  # Count the keyword only once per text
+            keyword_counts[keyword_lower]['texts'].append(text)  # Add the text where the keyword appears
     
     return keyword_counts
 
@@ -40,7 +46,7 @@ def process_deeds(text_objects):
                 racist_deed = True  # Mark deed as racist if any keyword is found
                 if keyword_lower not in total_keyword_counts:
                     total_keyword_counts[keyword_lower] = {'count': 0, 'texts': [], 'display_keyword': data['display_keyword']}
-                total_keyword_counts[keyword_lower]['count'] += data['count']
+                total_keyword_counts[keyword_lower]['count'] += 1  # Ensure the keyword is only counted once per deed
                 total_keyword_counts[keyword_lower]['texts'].extend(data['texts'])  # Collect texts
 
         # If any racist keyword is found, save the deed text
@@ -61,8 +67,9 @@ def process_deeds(text_objects):
 # Example usage
 text_objects = [
     {"original_text": "This deed restricts African Americans and Chinese people."},
-    {"original_text": "This is a deed allowing Italian and Chinese immigrants."},
-    {"original_text": "This is a regular deed with no discriminatory language."}
+    {"original_text": "This is a deed allowing Italian and Irish immigrants."},
+    {"original_text": "This is a regular deed with no discriminatory language."},
+    {"original_text": "Grace is welcome in my home."}
 ]
 
 # Process the deeds and save any racist ones
