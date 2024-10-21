@@ -1,27 +1,15 @@
-from spellchecker import SpellChecker
+import language_tool_python
 
-# Initialize the spellchecker
-spell = SpellChecker()
+# Initialize the LanguageTool instance for English
+tool = language_tool_python.LanguageTool('en-US')
 
 def correct_spelling(text):
-    """Correct spelling errors in the given text and return corrected text."""
+    """Correct spelling and grammar errors in the given text using LanguageTool."""
     
-    words = text.split()
-    # Correct each word in the text
-    corrected_words = []
-    for word in words:
-        if spell.unknown([word]):
-            candidates = spell.candidates(word)
-            # Check if candidates is not None and has items
-            if candidates:
-                corrected_word = next(iter(candidates))  # Use the first candidate
-            else:
-                corrected_word = word  # Keep the original word if no candidates
-        else:
-            corrected_word = word
-        corrected_words.append(corrected_word)
-
-    # Join corrected words back into a single string
-    corrected_text = ' '.join(corrected_words)
+    # Check the text using LanguageTool
+    matches = tool.check(text)
+    
+    # Apply the suggested corrections from LanguageTool
+    corrected_text = language_tool_python.utils.correct(text, matches)
     
     return corrected_text
