@@ -3,3 +3,8 @@ tesseract
 Pillow
 openai
 python-dotenv
+flask
+flas-cors
+python-dotenv
+google-cloud-vision
+spacy
