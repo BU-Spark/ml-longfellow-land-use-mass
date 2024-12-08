@@ -8,3 +8,4 @@ flas-cors
 python-dotenv
 google-cloud-vision
 spacy
+openai==0.28

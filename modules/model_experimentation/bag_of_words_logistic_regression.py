@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
+import pickle
 
 def preprocess_bag_of_words(preprocessed_text_list):
     texts = [preprocessed["original_text"] for preprocessed in preprocessed_text_list]
@@ -32,6 +33,13 @@ if __name__ == "__main__":
     
     logistic_model = LogisticRegression(max_iter=1000)
     logistic_model.fit(X_train, y_train)
+
+    # Save the model and vectorizer
+    with open('vectorizer.pkl', 'wb') as vec_file:
+        pickle.dump(vectorizer, vec_file)
+    with open('logistic_model.pkl', 'wb') as model_file:
+        pickle.dump(logistic_model, model_file)
+
     y_pred = logistic_model.predict(X_test)
 
     accuracy = accuracy_score(y_test, y_pred)
@@ -71,3 +79,11 @@ if __name__ == "__main__":
     plt.xlabel('Coefficient Value')
     plt.ylabel('Word')
     plt.show()
+
+# Function to make predictions based on the trained model
+def predict(processed_text, vectorizer, logistic_model):
+    bow_text = vectorizer.transform([processed_text["original_text"]])
+    prediction = logistic_model.predict(bow_text)
+    return {
+        'is_racist': bool(prediction[0]),
+    }

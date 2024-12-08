@@ -55,5 +55,8 @@ def preprocess_text(text):
     result["named_entities"] = [{"text": ent.text, "label": ent.label_} for ent in doc.ents]
     result["word_frequency"] = dict(Counter(all_tokens))
     result["pos_counts"] = dict(Counter([token.pos_ for token in doc]))
+
+    result["names"] = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
+    result["locations"] = [ent.text for ent in doc.ents if ent.label_ in {"GPE", "LOC"}]
     
     return result
