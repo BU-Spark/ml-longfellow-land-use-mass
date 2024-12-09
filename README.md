@@ -88,7 +88,7 @@ if ocr_engine == 'google':
 
 ## Frontend Application (DRAINS)
 
-The Spring 2024 group build a frontend called DRAINS which handles receiving and sending TIFFs to the backend. Below is a screenshot of the UI:
+The Spring 2024 group built a frontend called DRAINS which handles receiving and sending TIFFs to the backend. Below is a screenshot of the UI:
 
 ![UI](./F24-media/drains-ui.png)
 
@@ -154,6 +154,8 @@ The backend is deployed on a space in BU Spark!'s HuggingFace organization. Here
 The backend is just a containerized Flask application. To make changes, clone the repo at the second link and make changes. The backend requires three ENV variables to use the Google Cloud OCR and OpenAI API. You can go under settings in the space to see these ENV variables. Currently, BU Spark!'s OpenAI and Google OCR keys are being used, but they can be changed at any time.
 
 The frontend is deployed under Jacob's personal Vercel (web-hosting service) account. To make a new frontend deployment, make a Vercel account, and fork the ml-longfellow-land-use repo. Connect Vercel to your GitHub, and select the branch you want to deploy.
+
+Our final deployment can be found here: https://ml-longfellow-land-use-mass.vercel.app/
 
 ## Modules
 
