@@ -3,6 +3,8 @@ import DragDropArea from "./components/DragDropArea";
 import "./App.css";
 import Banner from "./components/Banner";
 
+const BACKEND_URL = "https://spark-ds549-f24-racist-deeds.hf.space"
+
 const bigotryTerms = new Set([
   "irishman", "greek", "portugese", "mulatto", "quadroon", "chinaman", "jap", "hebrew", 
   "pole", "french canadian", "canadien", "quebecois", "arab", "turk", "frenchman", "german", 
@@ -111,7 +113,7 @@ const App = () => {
 
         // Reads from HuggingFace backend
         const response = await fetch(
-          "https://spark-ds549-f24-racist-deeds.hf.space/api/upload",
+          `${BACKEND_URL}/api/upload`,
           {
             method: "POST",
             body: formData,
@@ -142,7 +144,7 @@ const App = () => {
 
   const handleDownloadExcel = async () => {
     const response = await fetch(
-      "https://spark-ds549-f24-racist-deeds.hf.space/api/download_excel",
+      `${BACKEND_URL}/api/download_excel`,
       {
         method: "POST",
         headers: {

@@ -1,111 +1,223 @@
 ![logo](logo.png)
 
-# DRAINS: Deed Restriction Artificial Intelligence Notification System
+# Note on Documentation
+
+There are 3 semesters-worth of documentation in this repository. For Spring and Summer 2024, please see S24-SUM24-Docs.md. This README.md contains Fall 2024 documentation, which builds upon and incorporates work from previous semesters. You can safely skip the old documentation, we have incorporated necessary components.
+
+# DRAINS Racism Detection Pipeline - Fall 2024
 SPARK! x MassMutual Data Days for Good
 
-Created by Alessandra Lanz, Sahir Doshi, Cindy Zhang, Vijay Fisch, Sindhuja Kumar, Naman Nagaria, Valentina Haddad
+Created by Nathaniel Quisel, Jacob Stein, Jianying Liu
 
 ## Project Overview
+The Racist Deeds Project aims to expand the identification of property deeds with racist restrictions, initially focusing on Longmeadow, Massachusetts. These restrictions, targeting marginalized groups like African Americans, were outlawed by the Fair Housing Act of 1968 and locally in Massachusetts by 1946. This project seeks to streamline the identification process of discriminatory deeds to support the Longmeadow Historical Society.
+
+The focus of this semester was to build a data pipeline that will interact with deeds stored in a designated Google Drive location and potentially adjust some of the Gen AI prompts. The project implements Optical Character Recognition (OCR) tools to digitize and extract text from scanned deed documents, which facilitates more efficient analysis and pattern recognition.
+
 This project, developed for the [Longmeadow Historical Society](https://www.longmeadowhistoricalsociety.org), introduces an automated tool designed to identify racist restrictions within historical property deeds. Utilizing advanced text analysis techniques, the program processes TIFF images of property deeds, evaluates the text for racist content, and extracts critical information—specifically the deed date and page number—into a CSV format for efficient access and analysis.
 
-### Key Features
+## Data Pipeline
 
-- Image Processing: Accepts property deed images in TIFF format.
-- Content Analysis: Employs text recognition and analysis algorithms to detect racist language.
-- Data Extraction: Automates the extraction of deed date and page number for each document analyzed.
+See below a diagram of the data pipeline
 
-Our aim is to assist the Longmeadow Historical Society in their efforts to document and understand historical injustices, contributing to a broader societal recognition and rectification of past discriminations.
+![Pipeline](./F24-media/pipeline.png)
 
-### Dataset Used
-The historical property deeds (mainly 1900s) of Massachusetts.
+The pipeline is split into several key phases, facilitated by separate modules:
+- OCR: We used Google OCR to turn scanned deed TIFF files into a string
+- Structure: We used spaCy NLP to turn the string into a structured object with metadata like parts of speech and sentence breakdown
+- Classification: Users can choose between logistic regression or ChatGPT to make a classification of submitted deeds, which will display the result on the UI
 
-## Quick Start
-### Requirements
-Install essential libraries:
-```
-pip install -r requirements.txt
-```
+There is more detailed documentation in the modules folder about how each component is connected. Here is a code snippet from app.py containing the combined modules:
 
-### Set up OpenAI_API_KEY
-In folder `modules`: 
-
-1. Duplicate the file `env.template`
-
-2. Add your `api key` and `organization id` to `OPENAI_API_KEY` and `OPENAI_ORG_ID`. You can get your api key and organization ID via the link: https://platform.openai.com/api-keys, 
-https://platform.openai.com/account/organization
-
-3. Rename this file to `.env`
-
-> For different ChatGPT versions, you can change the `model` parameter in `racist_chatgpt_analysis.py`.   
-It's on line 13:
-`model="gpt-3.5-turbo"`  
-To access ChatGPT-4, you can update this line to:
-`model="gpt-4-0125-preview"`
-
-### Run the code
-In file `main.py`, change the folder path to your path(line 36).
 ```python
-racism_threshold('/Your/Path/To/Files')
+if ocr_engine == 'google':
+            # Step 1: Get text using Google OCR
+            google_text = google_cloud_ocr(file)
+
+            # Step 2: Pass text through the spell checker
+            spellchecked_text = correct_spelling(google_text)
+
+            # Step 3: Pass text through the preprocessor
+            processed_text = preprocess_text(spellchecked_text)
+
+            # Extract book and page numbers right after spellchecking
+            book_numbers, page_numbers = extract_book_and_page(spellchecked_text)
+
+            # Step 4: Get the names and locations
+            extracted_info = {
+                "names": processed_text.get("names", []),
+                "locations": processed_text.get("locations", []),
+                "book_numbers": book_numbers,  
+                "page_numbers": page_numbers
+            }
+            
+            # Step 5: Choose analysis method
+            if analysis_method == 'chatgpt':
+                analysis_result = racist_chatgpt_analysis(processed_text['original_text'])
+                return jsonify({
+                    'status': 'success',
+                    'ocr_engine': 'google',
+                    'analysis_method': 'chatgpt',
+                    'original_text': google_text,
+                    'spellchecked_text': spellchecked_text,
+                    'processed_text': processed_text,
+                    'extracted_info': extracted_info,
+                    'result': analysis_result
+                }), 200
+            elif analysis_method == 'logistic_regression':
+                lr_result = predict(processed_text, vectorizer, logistic_model)['is_racist']
+                return jsonify({
+                    'status': 'success',
+                    'ocr_engine': 'google',
+                    'analysis_method': 'logistic_regression',
+                    'original_text': google_text,
+                    'spellchecked_text': spellchecked_text,
+                    'processed_text': processed_text,
+                    'extracted_info': extracted_info,
+                    'result': lr_result
+                }), 200
+            else:
+                return jsonify({'error': 'Unsupported analysis method selected'}), 400
 ```
-For the **Windows Operating System**, you need to edit the path manually to make sure all slashes are **backslashes**. 
 
-Then in command line, run:
-```
-python main.py
-```
+- Step 1: Uses google_cloud_ocr from google_cloud_ocr module
+- Step 2: Uses correct_spelling from deed_preprocessing module
+- Step 3: Uses spaCy preprocessor from deed_preprocessing module
+- Step 4: Extracts names and locations using preprocessed data
+- Step 5: Use predict from BoW-LR module, or make a GPT-4 call using our OpenAI module
 
-## Modules Overview
+## Frontend Application (DRAINS)
 
-`OCR.py`: Employs Google's OCR (Optical Character Recognition) technology, via the PyTesseract library, to convert deed images in TIFF format to searchable and analyzable text.
+The Spring 2024 group build a frontend called DRAINS which handles receiving and sending TIFFs to the backend. Below is a screenshot of the UI:
 
-`bigotry_dict.py`: Contains a hardcoded dictionary of terms associated with racist language that is used to scrutinize the deed text for potential matches.
+![UI](./F24-media/drains-ui.png)
 
-`locate.py`: Utilizes PyTesseract OCR to identify and extract specific information from the deed text, such as the deed date, book of origin, and page number.
+We augmented the UI by adding bulk-uploading and dropdowns to select OCR and classification type.
 
-`racist_chatgpt_analysis.py`: Integrates with OpenAI's ChatGPT API to process the text-based deeds for advanced racism detection, offering a nuanced analysis that goes beyond keyword matching.
+The function handleFileUpload in App.jsx is responsible for hitting the backend on HuggingFace:
 
-`racist_text_query.py`: A failsafe text query module that acts as a backup for the ChatGPT analysis, manually checking deeds against the bigotry dictionary to ensure no instances of racist language are overlooked.
+```javascript
+const handleFileUpload = async (files) => {
+    setResults([]);
+    setIsLoading(true);
 
-`pagenum.py`: A failsafe page number extraction module that acts as a backup for the data extraction done by `locate.py` by cropping the corners of the image for enlargement and easy OCR translation. 
+    try {
+      const newResults = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("ocr_engine", ocrEngine);
+        formData.append("analysis_method", analysisMethod);
 
+        // Reads from HuggingFace backend
+        const response = await fetch(
+          "https://spark-ds549-f24-racist-deeds.hf.space/api/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
-# PIT-NE x SPARK! x MassMutual ~ SUMMER 2024 
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-Created by Arnav Sodhani, Grace Chong, Hannah Choe
+        const data = await response.json();
 
-## Project Overview
+        newResults.push({
+          fileName: file.name,
+          spellcheckedText: data.spellchecked_text || "No text available",
+          analysisResult: data.result || false,
+          extractedInfo: data.extracted_info || { names: [], locations: [] },
+        });
+      }
+      setResults(newResults);
+      setSelectedResult("all");
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  ```
 
-This project is developed for the Longmeadow Historical Society and is a direct continuation of the work done by SPARK! x MassMutual Data Days for Good. 
+## Deployment
 
-This interactive map shows the temporal progression of racist deeds in a neighborhood in Longmeadow, MA in the early 1900s. To make this product, we first utilized the MA registry and filtered off of Hampden County to get our data. On the registry website, we filtered out property deeds based on whether the seller was E.H. Robbins (this builder was infamous for placing racial restrictions in deeds) and the period was the early 1900s (MA passed the Fair Housing Act in 1946 so we had to look for deeds prior that year). We then organized and consolidated these deeds in a spreadsheet. Next, we filtered whether the deed had any racial restrictions and then normalized the spreadsheet so that each "lot number" had its row. Lastly, to finalize the creation of this database, we added two new columns: Address Today (we matched each "lot number" to its respective current-day address using GIS technology and the Longmeadow lot plan) and House Image (we matched each address to its house image using Google Maps). And then finally we used ArcGIS, software that helps to build web maps, to create our end deliverable of an interactive map that visualizes the data with a temporal aspect (time slider).
+Both the frontend and backend need to be deployed separately.
 
-### Key Features 
+The backend is deployed on a space in BU Spark!'s HuggingFace organization. Here are relevant links:
 
--Cover and information page 
+- BU Spark! HuggingFace organization endpoint: https://huggingface.co/spark-ds549
+- HuggingFace deployment repo: https://huggingface.co/spaces/spark-ds549/F24-Racist-Deeds/tree/main
+- GET endpoint for checking backend health: https://spark-ds549-f24-racist-deeds.hf.space/api/health
 
--Time slider of the existence of deeds 
+The backend is just a containerized Flask application. To make changes, clone the repo at the second link and make changes. The backend requires three ENV variables to use the Google Cloud OCR and OpenAI API. You can go under settings in the space to see these ENV variables. Currently, BU Spark!'s OpenAI and Google OCR keys are being used, but they can be changed at any time.
 
--House icon: information on property deed 
+The frontend is deployed under Jacob's personal Vercel (web-hosting service) account. To make a new frontend deployment, make a Vercel account, and fork the ml-longfellow-land-use repo. Connect Vercel to your GitHub, and select the branch you want to deploy.
 
--Address search tool
+## Modules
 
--Filter tool for racial groups 
+Each module has its own documentation in its respective sub-directory. Run ```pip install -r requirements.txt``` before testing any modules to ensure you have the needed packages. Below is a quick summary of each module
 
-### Process
+- azure_cloud_ocr: Used to test Microsoft Azure OCR, which was ultimately not used
+- data_retrieval: Used to fetch deeds from Google Cloud locally
+- deed_preprocessing: Used to read TIFFs from the SCC and structure the objects using spaCy and autocorrect
+- google_cloud_ocr: Used for Google Cloud OCR, which is used in the pipeline
+- last_year: Contains unused modules from S24
+- model_experimentation: Contains code used to create dataframes from spaCy objects and test on BoW-LR model
+- models: Contains A pickled LR and word vectorizer model
+- openai: Contains Contains code used to call OpenAI API
+- synthetic_data: Contains code used to create synthetically-racist deeds by injecting racist covenant clauses from other datasets
 
-Data Collection - 
+## Quickstart
 
-There were issues running the code from SPARK! x MassMutual Data Days for Good. We decided to manually collect data from the Hampden County Registry of Deeds in Longmeadow, MA with E.H Robbins as the grantor. 
+### Frontend
 
-Data Cleaning and Transformation -
-1. After manually collecting the data of racist deeds in Longmeadow with E.H Robbins as the grantor, we normalized the Lot # column to ensure that each Lot # has a unique row; this is so, because deeds may have multiple lot #s. 
-2. Then we matched the lot # to the modern-day addresses using an existing Longmeadow GIS. 
-3. Finally, we created a reference table with ID keys to map onto our GIS. 
+- Open a terminal and navigate to drain/
+- Run ```npm install``` to install needed node modules
+- Change the backend URL on Line 6 of App.jsx
+    ```javascript
+    const BACKEND_URL = "https://spark-ds549-f24-racist-deeds.hf.space"
+    ```
+    Change to:
+    ```javascript
+    const BACKEND_URL = "http://localhost:5000"
+    ```
+    Replace port 5000 with whatever port you want to use for the backend
 
+- Run ```npm run dev``` to start the vite application
+- Visit  http://localhost:5173/ in your browswer, and you should see the UI
 
-### Visualization 
+### Backend
 
-We chose ArcGIS for our visualization software (interactive map). 
+- Install requirements using ```pip install -r requirements.txt```
+- Add the following ENV variables:
+    - GOOGLE_CLOUD_CREDENTIALS: BU Spark!'s Google Cloud credentials
 
-Link to the ArcGIS instant app:
-https://arcg.is/1aKD9b1
+    Google Cloud credentials must be of the form:
+
+    ```json
+    {
+    "type": "",
+    "project_id": "",
+    "private_key_id": "",
+    "private_key": "",
+    "client_email": "",
+    "client_id": "",
+    "auth_uri": "",
+    "token_uri": "",
+    "auth_provider_x509_cert_url": "",
+    "client_x509_cert_url": "",
+    "universe_domain": ""
+    }
+    ```
+    To get this JSON, log into Google Cloud Console under the project of choice, and go IAM & Admin > Service Accounts. Make a service account or click the three vertical dots next to an existing one and click manage keys. Add a new key and download the JSON.
+
+    Rename the JSON to google-cloud.json and put it at /credentials/google-cloud.json
+
+    - OPENAI_ORG_ID: BU Spark!'s OpenAI organization ID, get from BU Spark!
+    - OPENAI_API_KEY: BU Spark!'s OpenAI API key, get from BU Spark!
+    - Make a .env file in root directory to set the two above variables
+- Run ```python3 app.py```
+
+Your frontend and backend should now be running on two separate ports!
