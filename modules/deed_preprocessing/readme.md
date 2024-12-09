@@ -1,5 +1,43 @@
-1. Download a zip of tiffs named tiffs.zip, and put it in the deed_preprocessing directory
-2. Run read_tiffs.py to get a directory full of text outputs from Google Cloud OCR
-3. The file preprocessor.py uses SpaCy to parse the sentences into objects
+# Deed Preprocessing Module
 
-The above steps are all completed in eda.ipynb, which performs some preliminary analysis on the data objects.
+## preprocessor.py
+
+Preprocessor accepts a string which should be the text output of an OCR model. It then calls spaCy NLP, and parses metadata from the returned object. The following loop handles the parsing:
+
+```python
+for sent in doc.sents:
+        result["sentences"].append(sent.text)
+        result["sentence_lengths"].append(len(sent))
+        
+        for token in sent:
+            pos = token.pos_
+            all_tokens.append(token.text)
+            
+            if pos in pos_groups:
+                pos_groups[pos].append(token.text)
+                
+            result["dependencies"].append({
+                "token": token.text,
+                "dep": token.dep_,
+                "head": token.head.text
+            })
+            result["token_offsets"].append({
+                "token": token.text,
+                "start": token.idx,
+                "end": token.idx + len(token.text)
+            })
+```
+
+See eda.ipynb for more analysis on these objects.
+
+## read_tiffs.py
+
+This module can be used to read TIFFs from a ZIP file and store result in a directory of text outputs called /outputs. Do the following steps:
+
+- Make sure you set up Google Cloud OCR credentials first, see the README in../google_cloud_ocr to do this.
+- Download a ZIP of TIFFs from the SCC or Google Cloud and rename it tiffs.zip. Put it in the deeds_preprocessing directory
+- Run the script and see the output text files in /outputs, note that this will use Google Cloud credits
+- Use preprocessor.py to structure the text files into spaCy objects
+
+These steps are all done in eda.ipynb for further clarity.
+

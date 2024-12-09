@@ -147,7 +147,7 @@ Both the frontend and backend need to be deployed separately.
 
 The backend is deployed on a space in BU Spark!'s HuggingFace organization. Here are relevant links:
 
-- BU Spark! HuggingFace organization endpoint: https://huggingface.co/spark-ds549
+- BU Spark! HuggingFace organization: https://huggingface.co/spark-ds549
 - HuggingFace deployment repo: https://huggingface.co/spaces/spark-ds549/F24-Racist-Deeds/tree/main
 - GET endpoint for checking backend health: https://spark-ds549-f24-racist-deeds.hf.space/api/health
 
@@ -191,10 +191,11 @@ Each module has its own documentation in its respective sub-directory. Run ```pi
 ### Backend
 
 - Install requirements using ```pip install -r requirements.txt```
+- Install required spaCy model using ```python -m spacy download en_core_web_sm```
 - Add the following ENV variables:
-    - GOOGLE_CLOUD_CREDENTIALS: BU Spark!'s Google Cloud credentials
+    - GOOGLE_CLOUD_CREDENTIALS: path to BU Spark!'s Google Cloud credentials
 
-    Google Cloud credentials must be of the form:
+    The Google Cloud credentials JSON must be of the form:
 
     ```json
     {
@@ -213,11 +214,15 @@ Each module has its own documentation in its respective sub-directory. Run ```pi
     ```
     To get this JSON, log into Google Cloud Console under the project of choice, and go IAM & Admin > Service Accounts. Make a service account or click the three vertical dots next to an existing one and click manage keys. Add a new key and download the JSON.
 
-    Rename the JSON to google-cloud.json and put it at /credentials/google-cloud.json
+    Rename the JSON to google-cloud.json and put it at /credentials/google-cloud.json. Set the path as follows in the .env file
+
+    GOOGLE_APPLICATION_CREDENTIALS=/credentials/google-cloud.json
+
+    For more precise details on setting up Google Cloud credentials, see the README.md in ./modules/google_cloud_ocr
 
     - OPENAI_ORG_ID: BU Spark!'s OpenAI organization ID, get from BU Spark!
     - OPENAI_API_KEY: BU Spark!'s OpenAI API key, get from BU Spark!
-    - Make a .env file in root directory to set the two above variables
+    - Make a .env file in root directory to set the three above variables
 - Run ```python3 app.py```
 
 Your frontend and backend should now be running on two separate ports!

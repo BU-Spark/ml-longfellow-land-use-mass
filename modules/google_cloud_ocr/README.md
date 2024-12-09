@@ -1,7 +1,5 @@
 # Google Cloud OCR Setup with Python
 
----
-
 ## Step 1: Create a Google Cloud Project
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
@@ -9,16 +7,12 @@
    - In the top-left corner, click the project dropdown menu and then "New Project."
    - Enter a project name (e.g., "OCR Project") and click "Create."
 
----
-
 ## Step 2: Enable the Cloud Vision API
 
 1. In the **Google Cloud Console**, go to the **Navigation Menu** (three horizontal lines at the top left).
 2. Click on **APIs & Services** > **Library**.
 3. In the search bar, type **Vision API**.
 4. Select **Cloud Vision API** and click **Enable**.
-
----
 
 ## Step 3: Create Service Account Credentials
 
@@ -35,8 +29,6 @@
    - Select "Manage Keys" > "Add Key" > "Create New Key."
    - Choose **JSON** format and download the JSON file. This file contains your credentials.
 
----
-
 ## Step 4: Set Up the `.env` File
 
 1. Create a new file named `.env` in the root directory of your Python project.
@@ -45,8 +37,7 @@
    ```bash
    GOOGLE_APPLICATION_CREDENTIALS=/path-to-your-credentials.json
    ```
-
----
+   We recommend setting the path as ./credentials/google-cloud.json
 
 ## Step 5: Running the script
 
