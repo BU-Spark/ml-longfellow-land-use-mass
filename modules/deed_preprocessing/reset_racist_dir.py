@@ -39,32 +39,32 @@ else:
                 print(f"Moved: {file_name} -> {destination_dir}")
 
     #go through every deed in ./outputs and check if that deed contains a word in 'bigotry_dict'
-    for root, dirs, files in os.walk(r'../deed_preprocessing/outputs'):
-        for file in files:
-            if file.endswith('.txt'):
-                txt_file_path = os.path.join(root, file)
+    for file_name in os.listdir(destination_dir):
+        if file_name.endswith('.txt'):
+            txt_file_path = os.path.join(destination_dir, file_name)
 
-                with open(txt_file_path, 'rb') as txt_file:
-                    try:
-                        # Read and decode the text file
-                        text = txt_file.read()
-                        decoded_text = text.decode('utf-8')
-                        words = re.split(r'[\n ]+', decoded_text)
+            with open(txt_file_path, 'rb') as txt_file:
+                try:
+                    # Read and decode the text file
+                    text = txt_file.read()
+                    decoded_text = text.decode('utf-8')
+                    words = re.split(r'[\n ]+', decoded_text)
 
-                        # Look for matches in the text
-                        found = False
-                        for i in range(len(words)):
-                            if not found:
-                                for identifier in bigotry_dict.keys():
-                                    if not found:
-                                        similarity_ratio = SequenceMatcher(None, words[i], identifier).ratio()
-                                        if similarity_ratio >= 0.9:
-                                            #figure out how to move this file into other directory
-                                            found = True
-                                    
+                    # Look for matches in the text
+                    found = False
+                    for i in range(len(words)):
+                        if not found:
+                            for identifier in bigotry_dict.keys():
+                                if not found:
+                                    similarity_ratio = SequenceMatcher(None, words[i], identifier).ratio()
+                                    if similarity_ratio >= 0.9:
+                                        #if matching then move the file to ./racist
+                                        destination_file = os.path.join(source_dir, file_name)
+                                        shutil.move(txt_file_path, destination_file)
+                                        found = True
 
-                    except Exception as e:
-                        print(f"Error processing {file}: {str(e)}")
-    
+                except Exception as e:
+                    print(f"Error processing {file_name}: {str(e)}")
+
 
 
