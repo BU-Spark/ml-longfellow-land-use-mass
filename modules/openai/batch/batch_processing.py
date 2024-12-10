@@ -89,7 +89,7 @@ class BatchProcessor:
 if __name__ == "__main__":
     processor = BatchProcessor()
 
-    folder_path = ""  
+    folder_path = "" # your path of folder of deeds
     batch_input_file = "batch_input.jsonl"
     batch_output_file = "batch_output.jsonl"
 

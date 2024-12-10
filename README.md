@@ -84,7 +84,7 @@ if ocr_engine == 'google':
 - Step 2: Uses correct_spelling from deed_preprocessing module
 - Step 3: Uses spaCy preprocessor from deed_preprocessing module
 - Step 4: Extracts names and locations using preprocessed data
-- Step 5: Use predict from BoW-LR module, or make a GPT-4 call using our OpenAI module
+- Step 5: Use predict from BoW-LR module, or make a GPT-40-mini call using our OpenAI module
 
 ## Frontend Application (DRAINS)
 

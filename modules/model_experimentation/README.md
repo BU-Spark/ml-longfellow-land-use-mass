@@ -44,5 +44,3 @@ bow_df, vectorizer = preprocess_bag_of_words(preprocessed_text_list)
     logistic_model = LogisticRegression(max_iter=1000)
     logistic_model.fit(X_train, y_train)
 ```
-
-## extract_names.py

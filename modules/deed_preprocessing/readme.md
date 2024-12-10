@@ -50,12 +50,17 @@ To run this file:
 -Can check which folders have been OCRed by going to /outputs and checking the first 6 numbers before the dash, which will be the most recent folder OCRed
 -submit an SCC job by "qsub ocr_deeds.sh"
 
-##reset_racist_dir.sh
+## reset_racist_dir.sh
 
 This script is designed to be run in the SCC and submitted as a job with the accompanying file "reset_racist_dir.sh". It is intended to be used to update the /racist folder after making changes to the "bigotry-dict". It moves all the files from /racist to /outputs and then it loops through every .txt file in /outputs and moves that file back to /racist if any of the words match a word within the "bigotry-dict".
 To run this file simply do "qsub reset_racist_dir.sh" in the SCC
 
-##batch_process_racist_dir.py
+## batch_process_racist_dir.py
 
 This script is designed to make an OpenAI API call on each deed stored within the /racist folder and ask ChatGPT whether there is racist language within this document. This is useful for finding documents that actually contain racist restrictions that can be used as ground truth for the logistic regression model, or future models. Make sure OpenAI credentials are setup in advance.
+
+## spellcheck.py
+
+Script to use the autocorrect library to improve extracted ocr texts.
+
 

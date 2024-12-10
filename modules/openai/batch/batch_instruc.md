@@ -55,3 +55,4 @@ Guide to OpenAI batch api --> https://platform.openai.com/docs/guides/batch
 ## Consolidated script that combines all the functionalities (Except helpers)
 
    1. batch_processing.py
+      - need to add in folder path of your folder of deeds
