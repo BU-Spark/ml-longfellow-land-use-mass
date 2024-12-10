@@ -41,3 +41,10 @@ This module can be used to read TIFFs from a ZIP file and store result in a dire
 
 These steps are all done in eda.ipynb for further clarity.
 
+## read_all_tiffs.py
+
+This script is designed to be run in the SCC and submitted as a job with the accompanying file "ocr_deeds.sh". It loops through the specified folders within the SCC that contain deed TIF files and retrieves the OCR text of these deeds. Then it utilizes "bigotry-dict" which contains a set of national identifiers and checks if any word within the OCR text matches with any of these identifiers. If any of the words match, the file is put in ./racist and if not it is put in ./outputs. 
+Before running:
+-Make sure your Google Cloud OCR credentials are setup, see the README in../google_cloud_ocr to do this.
+-Change the folders to be run on in line 
+
