@@ -15,10 +15,10 @@ app = Flask(__name__)
 # CORS(app, resources={r"/*": {"origins": "*"}})
 CORS(app, supports_credentials=True, origins="*")
 
-with open('modules/model_experimentation/vectorizer.pkl', 'rb') as vec_file:
+with open('modules/models/vectorizer.pkl', 'rb') as vec_file:
     vectorizer = pickle.load(vec_file)
 
-with open('modules/model_experimentation/logistic_model.pkl', 'rb') as model_file:
+with open('modules/models/logistic_model.pkl', 'rb') as model_file:
     logistic_model = pickle.load(model_file)
 
 # Helper to look for the book and page numbers

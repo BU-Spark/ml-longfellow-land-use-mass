@@ -14,6 +14,12 @@ Includes code to run all tiffs through OCR and preprocessing. Also contains EDA.
 
 Contains modules related to Google Cloud OCR
 
+### openai
+
+Contains modules related to openai 
+
 ### last_year
 
 Contains last years modules, which are not being used.
+
+

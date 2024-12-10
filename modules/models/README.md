@@ -1,0 +1,1 @@
+This directory contains pickled versions of the logisitic regression and BoW vectorizer used by the Flask backend.
