@@ -57,7 +57,7 @@ else:
                             if not found:
                                 for identifier in bigotry_dict.keys():
                                     if not found:
-                                        similarity_ratio = SequenceMatcher(None, words[i], identifier).ratio()
+                                        similarity_ratio = SequenceMatcher(None, words[i].lower(), identifier.lower()).ratio()
                                         if similarity_ratio >= 0.9:
                                             #figure out how to move this file into other directory
                                             found = True

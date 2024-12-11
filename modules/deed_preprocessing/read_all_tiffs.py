@@ -46,10 +46,10 @@ for num in range(690,750):
                         #search for words in the bigotry_dict, can update with additional words
                         found = False
                         words = re.split(r'[\n ]+', corrected_text)
-                        for identifier in bigotry_dict:
+                        for identifier in bigotry_dict.keys():
                             if not found:
                                 for word in words:
-                                    similarity_ratio = SequenceMatcher(None, word, identifier).ratio()
+                                    similarity_ratio = SequenceMatcher(None, word.lower(), identifier.lower()).ratio()
                                     if similarity_ratio >= 0.9:
                                         found = True
                                         break

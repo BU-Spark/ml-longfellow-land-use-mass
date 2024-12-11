@@ -28,7 +28,7 @@ with open(output_file_path, 'w', encoding='utf-8') as output_file:
                             if not found:
                                 for identifier in bigotry_dict.keys():
                                     if not found:
-                                        similarity_ratio = SequenceMatcher(None, words[i], identifier).ratio()
+                                        similarity_ratio = SequenceMatcher(None, words[i].lower(), identifier.lower()).ratio()
                                         if similarity_ratio >= 0.9:
                                             # Collect the surrounding words
                                             context = words[max(0, i-10):min(len(words),i+10)]
